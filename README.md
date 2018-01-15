@@ -3,8 +3,8 @@ Assignments
 
 This is the [CSE-20289-SP18] reading and homework assignments repository for:
 
-* **Name**:  Dommer McDomerson
-* **NetID**: dmcdomers
+* **Name**:  Ana Luisa Lamberto
+* **NetID**: alamber2
 
 Readings
 --------
