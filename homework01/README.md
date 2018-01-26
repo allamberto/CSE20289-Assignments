@@ -47,4 +47,7 @@ b) Control-z was able to suspend the program. Then, I was able to use the ps com
 a) ps ux | grep TROLL | awk '{print $2}' | xargs kill -9 
 The ps, grep, awk combo searchs for TROLL in all the programs running and isolates the PIDs. The xargs command takes this input, translates it into a list, and passes this list to the kill command to end them all.
 b) killall -KILL TROLL 
-The killall command sends signals to multiple processes matching the TROLL program. The KILL flag specifies that I want to termiante the program and TROLL is the name of the program that killall looks for.
+The killall command sends signals to multiple processes matching the TROLL program. The KILL flag specifies that I want to terminate the program and TROLL is the name of the program that killall looks for.
+
+3) killall -10 TROLL makes the program rain numbers. killall -7 TROLL makes it sing the wheel on the bus goes round and round. killall -14 plays WHAM's greatest hits. 
+
