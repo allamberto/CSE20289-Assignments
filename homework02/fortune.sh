@@ -14,7 +14,7 @@ exit 1
 trap signal INT TERM HUP
 
 choose(){
-  shuf -n 1 << EOF
+  shuf -n 1 << EOF | cowsay
     It is certain
     It is decidedly so
     Without a doubt
@@ -46,4 +46,3 @@ while true; do
     break
   fi
 done
-
