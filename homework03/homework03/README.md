@@ -23,8 +23,8 @@ Activity 2
 
 Activity 3
 
-1) If arguments were passed at the command line, they were caught in a while statement. Once in the while statement, I used a switch case to catch each flag. The usage flag calls the usage function with the proper exit code. The -c catches the city name. It also checks to see if the argument after the current argument is a word. If it is, it adds it on to the current city name. It also removes all the " " using sed and adds an extra shift to account for this variable add-on. The -s flag first checks if the variable will be two words by checking if the first word is North, South, or New. If so, it takes both words and saves them into the State variable. Else, it just saves the one word.
+1) If arguments were passed at the command line, they were caught in a while statement. Once in the while statement, I used a switch case to catch each flag. The usage flag calls the usage function with the proper exit code. The -c catches the city name. The -s flag takes in the state's name and changes any spaces to %20 link in the HTML link.
 
 2) I used sed by specifying five digits inside ><. This required the -P advanced flag.
 
-3) Without the city, I searched for 5 numbers inside ><. I then used sed to remove the >< and -o to only print the numbers. With the city, I searched for the HTML code including the city and the zip. I then used sed to remove the city and everything else leading up to >.
+3) Without the city, I searched for 5 numbers inside ><. I then used grep to get just the digits. With the city, I searched for the HTML code including the city and the zip. I then used grep in the same manner to remove the ><.
