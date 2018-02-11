@@ -5,7 +5,8 @@ import sys
 
 # Global Variables
 
-ENDING = ''
+NUM = 10
+count = 0
 
 # Usage function
 
@@ -16,9 +17,6 @@ def usage(status=0):
     sys.exit(status)
 
 # Parse command line options
-
-NUM = 10
-count = 0
 
 args = sys.argv[1:]
 while len(args) and args[0].startswith('-') and len(args[0]) > 1:
