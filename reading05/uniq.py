@@ -39,6 +39,7 @@ for path in args:
         stream = open(path)
 
 names = {}
+blank = " "
 
 for line in stream:
     if line not in names:
@@ -48,7 +49,7 @@ for line in stream:
 
 if occur:
     for key in names:
-        line = '{:>7} {:<10}'.format(names[key], key)
+        line = '{:>7}{:>1}{:<10}'.format(names[key], blank, key)
         line = line.rstrip()
         print(line)
 else:
