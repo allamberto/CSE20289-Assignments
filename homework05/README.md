@@ -18,11 +18,12 @@ Homework 05
 # Complete the following table for passwords of length 5:
 # Processes	Time
 - 1	          2m54.054s
-- 2           3m5.086s
-- 4           3m4.261s
-- 6           3m3.803s
-- 8           3m5.725s
-- The number of processes initially increased the time it took to crack the passwords.
+- 2           0m34.426s
+- 4           0m53.671s
+- 6           1m14.964s
+- 8           1m23.423s
+
+- The length of processes exponentially decreased with the use of the first core but more cores than that caused a delay although still faster.
 
 # From your experience in this project and recalling your Discrete Math knowledge, what would make a password more difficult to brute-force: more complex alphabet or longer password? Explain.
   - A longer password would make the password more difficult to crack because each increase in length increases the number of permutations exponentially. With each increase, it takes a great jump in time and memory to crack brute-force style. For example, the jump from length five to length six is five minutes to forty minutes.

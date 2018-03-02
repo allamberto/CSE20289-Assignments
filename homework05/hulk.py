@@ -81,8 +81,11 @@ if __name__ == '__main__':
         prefixes = [PREFIX+a for a in ALPHABET]
         pool = multiprocessing.Pool(multiprocessing.cpu_count())
         passwords = itertools.chain.from_iterable(pool.imap(subsmash, prefixes))
-    for passwords in smash(hashSet, LENGTH, ALPHABET, PREFIX):
-        print(passwords)
+        for password in passwords:
+            print(password)
+    else:
+        for pw in smash(hashSet, LENGTH, ALPHABET, PREFIX):
+            print(pw)
 
 
 # vim: set sts=4 sw=4 ts=8 expandtab ft=python:
