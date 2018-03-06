@@ -16,4 +16,4 @@ for num in sortNums:
     else:
         count[num] = 1
 for key, val in count.items():
-    print(('{:>8} {:<10}').format(val, key))
+    print(('{:>7} {}').format(val, key))
