@@ -4,7 +4,7 @@
   "q3": "3",
   "q4": "5",
   "q5": [
-    "fprintf",
+   "fprintf",
    "exit",
    "fgets",
    "fputs",
