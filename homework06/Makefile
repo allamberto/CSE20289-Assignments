@@ -27,7 +27,7 @@ test-str:	str-static str-dynamic test_str.sh
 clean:
 	rm -f $(TARGETS) *.o
 
-library.o:	library.c
+library.o:	library.c str.h
 	$(CC) $(CFLAGS) -fPIC -c -o library.o library.c
 
 main.o: main.c str.h
