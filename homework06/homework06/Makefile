@@ -9,9 +9,6 @@ TARGETS=	libstr.a libstr.so str-static str-dynamic
 
 all:		$(TARGETS)
 
-test:
-	@$(MAKE) -sk test-all
-
 test-all:	test-libstr test-str
 
 test-libstr:	libstr.so test_libstr.py
