@@ -9,6 +9,9 @@ TARGETS=	libstr.a libstr.so str-static str-dynamic
 
 all:		$(TARGETS)
 
+test:
+	@$(MAKE) -sk test-all
+
 test-all:	test-libstr test-str
 
 test-libstr:	libstr.so test_libstr.py
@@ -24,7 +27,7 @@ test-str:	str-static str-dynamic test_str.sh
 clean:
 	rm -f $(TARGETS) *.o
 
-library.o:	library.c
+library.o:	library.c str.h
 	$(CC) $(CFLAGS) -fPIC -c -o library.o library.c
 
 main.o: main.c str.h
