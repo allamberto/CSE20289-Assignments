@@ -9,12 +9,12 @@
 /* Test Constants */
 
 Node TestNodes[] = {
-    {{'A'}, 1, NULL, NULL},
-    {{'B'}, 4, NULL, NULL},
-    {{'C'}, 0, NULL, NULL},
-    {{'E'}, 3, NULL, NULL},
-    {{'L'}, 2, NULL, NULL},
-    {{ 0 }, 0, NULL, NULL},
+    {{.letter = 'A'}, 1, NULL, NULL},
+    {{.letter = 'B'}, 4, NULL, NULL},
+    {{.letter = 'C'}, 0, NULL, NULL},
+    {{.letter = 'E'}, 3, NULL, NULL},
+    {{.letter = 'L'}, 2, NULL, NULL},
+    {{.letter =  0 }, 0, NULL, NULL},
 };
 
 #define TEST_CAPACITY   (4)

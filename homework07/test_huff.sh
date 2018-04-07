@@ -239,6 +239,14 @@ else
     echo "Success"
 fi
 
+printf " %-40s ... " "Input 0 (TSV)  (argument)"
+./$PROGRAM <(input_0) |& diff -y - <(output_0_tsv) &> $WORKSPACE/test
+if [ $? -ne 0 ]; then
+    error "Failure"
+else
+    echo "Success"
+fi
+
 printf " %-40s ... " "Input 0 (TSV)  (valgrind)"
 input_0 | valgrind --leak-check=full ./$PROGRAM &> $WORKSPACE/test
 if [ $(awk '/ERROR SUMMARY:/ {print $4}' $WORKSPACE/test) -ne 0 ]; then
@@ -249,6 +257,14 @@ fi
 
 printf " %-40s ... " "Input 0 (CSV)"
 input_0 | ./$PROGRAM -f csv |& diff -y - <(output_0_csv) &> $WORKSPACE/test
+if [ $? -ne 0 ]; then
+    error "Failure"
+else
+    echo "Success"
+fi
+
+printf " %-40s ... " "Input 0 (CSV)  (argument)"
+./$PROGRAM -f csv <(input_0) |& diff -y - <(output_0_csv) &> $WORKSPACE/test
 if [ $? -ne 0 ]; then
     error "Failure"
 else
@@ -271,6 +287,14 @@ else
     echo "Success"
 fi
 
+printf " %-40s ... " "Input 0 (JSON) (argument)"
+./$PROGRAM -f json <(input_0) |& diff -y - <(output_0_json) &> $WORKSPACE/test
+if [ $? -ne 0 ]; then
+    error "Failure"
+else
+    echo "Success"
+fi
+
 printf " %-40s ... " "Input 0 (JSON) (valgrind)"
 input_0 | valgrind --leak-check=full ./$PROGRAM -f json&> $WORKSPACE/test
 if [ $(awk '/ERROR SUMMARY:/ {print $4}' $WORKSPACE/test) -ne 0 ]; then
@@ -281,6 +305,14 @@ fi
 
 printf " %-40s ... " "Input 0 (YAML)"
 input_0 | ./$PROGRAM -f yaml |& diff -y - <(output_0_yaml) &> $WORKSPACE/test
+if [ $? -ne 0 ]; then
+    error "Failure"
+else
+    echo "Success"
+fi
+
+printf " %-40s ... " "Input 0 (YAML) (argument)"
+./$PROGRAM -f yaml <(input_0) |& diff -y - <(output_0_yaml) &> $WORKSPACE/test
 if [ $? -ne 0 ]; then
     error "Failure"
 else
