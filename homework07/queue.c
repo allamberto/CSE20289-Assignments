@@ -18,7 +18,15 @@ size_t  queue_minimum_child(Queue *q, size_t i);
  * @return  Newly allocated Queue structure with specified capacity.
  */
 Queue * queue_create(size_t capacity) {
-    return NULL;
+  Queue *q = calloc(1, sizeof(Queue));
+    if (q) {
+        if(capacity == 0)
+          q->capacity = PRIORITY_QUEUE_CAPACITY;
+        else
+          q->capacity = capacity;
+        q->nodes = calloc(q->capacity, sizeof(Node*));
+    }
+    return q;
 }
 
 /**
@@ -27,7 +35,9 @@ Queue * queue_create(size_t capacity) {
  * @return  NULL.
  */
 Queue * queue_delete(Queue *q) {
-    return NULL;
+  free(q->nodes);
+  free(q);
+  return NULL;
 }
 
 /**
@@ -36,8 +46,13 @@ Queue * queue_delete(Queue *q) {
  * @param   n           Node structure.
  * @return  Whether or not the operation was successful.
  */
-bool    queue_push(Queue *q, Node *n) {
+bool queue_push(Queue *q, Node *n) {
+  if (q->size >= q->capacity && !queue_resize(q, 2*(q->capacity)))
     return false;
+  q->nodes[q->size] = n;
+  queue_bubble_up(q, q->size);
+  q->size = q->size + 1;
+  return true;
 }
 
 /**
@@ -46,7 +61,11 @@ bool    queue_push(Queue *q, Node *n) {
  * @return  Minimum Node structure (by count) or NULL.
  */
 Node *	queue_pop(Queue *q) {
-    return NULL;
+    Node *temp = q->nodes[0];
+    q->nodes[0] = q->nodes[q->size - 1];
+    queue_bubble_down(q, 0);
+    (q->size)--;
+    return temp;
 }
 
 /**
@@ -54,7 +73,9 @@ Node *	queue_pop(Queue *q) {
  * @param   q           Queue structure.
  * @param   stream      I/O stream to write to.
  */
-void    queue_dump(const Queue *q, FILE *stream) {
+void queue_dump(const Queue *q, FILE *stream) {
+  for(size_t i = 0; i < q->size; i++)
+    node_dump(q->nodes[i], stream);
 }
 
 /* Internal Priority Queue Functions */
@@ -65,8 +86,10 @@ void    queue_dump(const Queue *q, FILE *stream) {
  * @param   capacity    New capacity.
  * @return  Whether or not operation succeeded.
  */
-bool    queue_resize(Queue *q, size_t capacity) {
-    return false;
+bool queue_resize(Queue *q, size_t c) {
+  q->nodes = realloc(q->nodes, c * sizeof(Node*));
+  q->capacity = c;
+  return q->nodes;
 }
 
 /**
@@ -74,7 +97,15 @@ bool    queue_resize(Queue *q, size_t capacity) {
  * @param   q           Queue structure.
  * @param   i           Index to current Node structure.
  */
-void    queue_bubble_up(Queue *q, size_t i) {
+void queue_bubble_up(Queue *q, size_t i) {
+  while(i > 0){
+    if(q->nodes[PARENT(i)]->count > q->nodes[i]->count){
+      Node *temp = q->nodes[PARENT(i)];
+      q->nodes[PARENT(i)] = q->nodes[i];
+      q->nodes[i] = temp;
+    }
+    i = PARENT(i);
+  }
 }
 
 /**
@@ -82,7 +113,18 @@ void    queue_bubble_up(Queue *q, size_t i) {
  * @param   q           Queue structure.
  * @param   i           Index to current Node structure.
  */
-void    queue_bubble_down(Queue *q, size_t i) {
+void queue_bubble_down(Queue *q, size_t i) {
+  while(i < q->size - 1){
+    size_t min = queue_minimum_child(q, i);
+    if(min == -1)
+      break;
+    if(q->nodes[min]->count < q->nodes[i]->count){
+      Node *temp = q->nodes[min];
+      q->nodes[min] = q->nodes[i];
+      q->nodes[i] = temp;
+    }
+    i = min;
+  }
 }
 
 /**
@@ -90,8 +132,17 @@ void    queue_bubble_down(Queue *q, size_t i) {
  * @param   q           Queue structure.
  * @param   i           Index to current Node structure.
  */
-size_t  queue_minimum_child(Queue *q, size_t i) {
-    return 0;
+size_t queue_minimum_child(Queue *q, size_t i) {
+    if(LEFT_CHILD(i) < (q->size) && RIGHT_CHILD(i) < (q->size)){
+      if(q->nodes[LEFT_CHILD(i)]->count < q->nodes[RIGHT_CHILD(i)]->count)
+        return LEFT_CHILD(i);
+      else
+        return RIGHT_CHILD(i);
+    }
+    else if(LEFT_CHILD(i) == q->size - 1)
+      return LEFT_CHILD(i);
+    else
+      return -1;
 }
 
 /* vim: set sts=4 sw=4 ts=8 expandtab ft=c: */
