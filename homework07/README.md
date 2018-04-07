@@ -50,12 +50,12 @@ Homework 07
    What sort of compression ratios were you able to achieve?  How does this
    compare to standard utilities such as `gzip`, `bzip2`, and `xz`?
 
-   According to online research, gzip, bzip2, and xz have compression ratios range from 20 to thirty. Mine are a bit lower than that because instead of binary representations, we have a tree, which takes up less memory. This may have resulted in lower compression values.
+   According to online research, gzip, bzip2, and xz have compression ratios range from 20 to thirty. Mine are twice as larger as that, making them less efficient than standard utilities.
 
-|      FILE           | OLD SIZE     | NEW SIZE     |    RATIO     |   
-|---------------------|--------------|--------------|--------------|
-| alice.txt           |       1316256|        128672|         9.78%|
-| heart_dark.txt      |       1866304|        134080|         7.18%|
-| pride_pred.txt      |       5712504|        134400|         2.35%|
-| frank.txt           |       3579976|        142016|         3.97%|
-| two_city.txt        |       6298296|        134496|         2.14%|
+   | FILE                | OLD SIZE     | NEW SIZE     | RATIO        |
+   |---------------------|--------------|--------------|--------------|
+   | alice.txt           |       1316256|        762209|        57.91%|
+   | heart_dark.txt      |       1866304|       1065323|        57.08%|
+   | pride_pred.txt      |       5712504|       3238750|        56.70%|
+   | wilde.txt           |       1139048|        672330|        59.03%|
+   | grime.txt           |       4357080|       2433257|        55.85%|
