@@ -10,7 +10,7 @@ TESTS=		test_node test_queue test_tree
 
 all:		$(TARGETS)
 
-test:		
+test:
 	@curl -sLO https://gitlab.com/nd-cse-20289-sp18/cse-20289-sp18-assignments/raw/master/homework07/test_node.c
 	@curl -sLO https://gitlab.com/nd-cse-20289-sp18/cse-20289-sp18-assignments/raw/master/homework07/test_queue.c
 	@curl -sLO https://gitlab.com/nd-cse-20289-sp18/cse-20289-sp18-assignments/raw/master/homework07/test_tree.c
@@ -44,6 +44,20 @@ clean:
 
 .SUFFIXES:
 
-# TODO: Pattern Rule for .c -> .o
+%.o:        %.c
+		 $(CC) $(CFLAGS) -o $@ -c $<
 
-# TODO: Rules for libhuff.a, test_node, test_queue, test_tree, huff
+libhuff.a: node.o queue.o tree.o
+	$(AR) $(ARFLAGS) libhuff.a node.o queue.o tree.o
+
+huff: huff.o libhuff.a
+	$(LD) $(LDFLAGS) -o $@ $^ libhuff.a
+
+test_node: libhuff.a test_node.o
+	$(CC) $(LDFLAGS) -o $@ $^ libhuff.a
+
+test_queue: libhuff.a test_queue.o
+	$(CC) $(LDFLAGS) -o $@ $^ libhuff.a
+
+test_tree: libhuff.a test_tree.o
+	$(CC) $(LDFLAGS) -o $@ $^ libhuff.a
