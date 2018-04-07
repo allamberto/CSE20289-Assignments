@@ -21,7 +21,7 @@ Homework 07
     much is allocated for each attribute in the struct.
 
     1. Explain what the code `assert(n->string.letter == '\n')` would result in?
-      We checked for characters that needed to be escaped when we set our symbol (including the new line character) so this assert would be true and do nothing.
+      This could would be false because the \n isn't escaped like we do when we assign symbol in our set symbol function so it will return a newline.
 
     1. Given that `symbol` is a **union** type, is it ever possible for both the
       `letter` and `string` of the symbol `\n` to co-exist (that is, the
@@ -46,16 +46,16 @@ Homework 07
 
       This would not have been easier because it is much more difficult to traverse a tree when it is in array form. When a tree is built with a linked list, recursion can be used for many different operations like traversing and inserting.
 
-3. Analyze the results of your experiements with you `huff.py` Python script.
+3. Analyze the results of your experiments with you `huff.py` Python script.
    What sort of compression ratios were you able to achieve?  How does this
    compare to standard utilities such as `gzip`, `bzip2`, and `xz`?
 
-    |        FILE        | OLD SIZE | NEW SIZE |   RATIO   |
-    |--------------------|----------|----------|-----------|
-    |     data/1342-0.txt|   5712512|   3238771|     56.70%|
-    |      data/219-0.txt|   1866312|   1065343|     57.08%|
-    |       data/84-0.txt|   3579736|   2005500|     56.02%|
-    |        data/844.txt|   1139056|    672349|     59.03%|
-    |       data/98-0.txt|   6298288|   3575868|     56.78%|
-    |       data/data.txt|       328|       127|     38.72%|
-    |      data/ideas.txt|      8360|      4934|     59.02%|
+   According to online research, gzip, bzip2, and xz have compression ratios range from 20 to thirty. Mine are a bit lower than that because instead of binary representations, we have a tree, which takes up less memory. This may have resulted in lower compression values.
+
+|      FILE           | OLD SIZE     | NEW SIZE     |    RATIO     |   
+|---------------------|--------------|--------------|--------------|
+| alice.txt           |       1316256|        128672|         9.78%|
+| heart_dark.txt      |       1866304|        134080|         7.18%|
+| pride_pred.txt      |       5712504|        134400|         2.35%|
+| frank.txt           |       3579976|        142016|         3.97%|
+| two_city.txt        |       6298296|        134496|         2.14%|

@@ -4,7 +4,7 @@ import os
 import sys
 import yaml
 
-books = ['monte_cristo.txt', 'beowulf.txt', 'les_mis.txt', 'frankenstein.txt', 'iliad.txt']
+books = ['alice.txt', 'heart_dark.txt', 'pride_pred.txt', 'frank.txt', 'two_city.txt']
 
 print("| {:20}| {:13}| {:13}| {:13}|".format("FILE", "OLD SIZE", "NEW SIZE", "RATIO"))
 print("|{:-<21}|{:-<14}|{:-<14}|{:-<14}|".format("-", "-", "-", "-"))
@@ -16,19 +16,14 @@ for i in books:
     os.system(cmd)
 
     ostr = "stat -c '%s' curr.ascii"
-    oSize = os.path.getsize('curr.ascii')
+    oSize = os.path.getsize('curr.ascii') * 8
 
-    #oSize = int((os.popen(ostr).read())) * 8
-
-    dstr = './huff -f json curr.ascii'
+    dstr = './huff -f json curr.ascii > curr.new'
 
     d = yaml.load(os.popen(dstr))
 
-    print(d)
-
-    for key in d:
-        nSize += len(d[key]['encoding']) * int(d[key]['count'])
+    nSize = os.path.getsize('curr.new') * 32
 
     ratio = (nSize / oSize) * 100
 
-    print("| {:20}| {:13}| {:13}| {:i>12}%|".format(i, oSize, nSize, '%.2f'% ratio))
+    print("| {:20}| {:13}| {:13}| {:>12}%|".format(i, oSize, nSize, '%.2f'% ratio)) #formats the output table
