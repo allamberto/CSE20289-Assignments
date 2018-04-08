@@ -81,11 +81,17 @@ void	tree_walk(const Tree *t, NodeFunc f, void *arg) {
  * @return
  */
 void	tree_count(Tree *t, FILE *stream) {
-  char buffer[BUFSIZ];
+  /*char buffer[BUFSIZ];
   while(fgets(buffer, BUFSIZ, stream)){
     for(int i = 0; i < strlen(buffer); i++)
       t->counts[(int)buffer[i]]++;
+  }*/
+  int64_t s = fgetc(stream);
+  while(s != EOF){
+    t->counts[s]++;
+    s =fgetc(stream);
   }
+
 }
 
 /**
