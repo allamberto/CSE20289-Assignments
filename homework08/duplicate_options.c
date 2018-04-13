@@ -1,6 +1,15 @@
 /* duplicate_options.c: Options Parsing */
 
 #include "duplicate.h"
+#include "string.h"
+
+
+#include <errno.h>
+#include <limits.h>
+#include <string.h>
+
+#include <fcntl.h>
+#include <unistd.h>
 
 /* Options Functions */
 
@@ -9,7 +18,7 @@
  * @param   progname        Name of program.
  * @param   status          Exit status.
  */
-void        usage(const char *progname, int status) {
+void usage(const char *progname, int status) {
     fprintf(stderr, "Usage: %s [options]\n\n", progname);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "    if=FILE     Read from FILE instead of stdin\n");
@@ -28,8 +37,41 @@ void        usage(const char *progname, int status) {
  * @param   options         Pointer to Options structure.
  * @return  Whether or not parsing the command-line options was successful.
  */
-bool        parse_options(int argc, char **argv, Options *options) {
-    return false;
+bool parse_options(int argc, char **argv, Options *options) {
+  int argind = 1;
+  while (argind < argc && strlen(argv[argind]) > 1) {
+    char *arg = argv[argind++];
+    char *stop = arg + strlen(arg);
+      switch (arg[0]) {
+        case 'i':
+          options->input_file = strchr(arg, '=') + 1;
+          break;
+        case 'o':
+          options->output_file = strchr(arg, '=') + 1;
+          break;
+        case 'c':
+          options->count = strtol((strchr(arg, '=') + 1), &stop, 10);
+          break;
+        case 'b':
+          options->bytes = strtol(strchr(arg, '=') + 1, &stop, 10);
+          if(options->bytes > BUFSIZ*2)
+            return false;
+          break;
+        case 's':
+          if(arg[1] == 'e'){
+            options->seek = strtol(strchr(arg, '=') + 1, &stop, 10);
+          }
+          else if(arg[1] == 'k'){
+            options->skip = strtol(strchr(arg, '=') + 1, &stop, 10);
+          }
+          else
+            return false;
+        break;
+        default: usage(argv[0], 1);
+      }
+  }
+
+  return true;
 }
 
 /* vim: set sts=4 sw=4 ts=8 expandtab ft=c: */
