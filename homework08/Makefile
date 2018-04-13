@@ -8,7 +8,7 @@ TARGETS=	duplicate search
 
 all:		$(TARGETS)
 
-test:		
+test:
 	@$(MAKE) -sk test-all
 
 test-all:	test-duplicate test-search
@@ -29,6 +29,11 @@ clean:
 
 .SUFFIXES:
 
-# TODO: Rules for duplicate and intermediate object files
+%.o:	%.c duplicate.h search.h
+		$(CC) $(CFLAGS) -o $@ -c $<
 
-# TODO: Rules for search and intermediate object files
+duplicate: duplicate_main.o duplicate_options.o
+	$(CC) $(LDFLAGS) -o duplicate duplicate_main.o duplicate_options.o
+
+search: search_filter.o search_main.o search_options.o search_utilities.o search_walk.o
+	$(CC) $(LDFLAGS) -o search search_filter.o search_main.o search_options.o search_utilities.o search_walk.o
