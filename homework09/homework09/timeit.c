@@ -48,7 +48,26 @@ void	usage(const char *progname, int status) {
  * @return  Array of strings representing command to execute.
  */
 char ** parse_options(int argc, char **argv) {
-    return NULL;
+  int argind = 1;
+  char **strs;
+  while (argind < argc && argv[argind][0] == '-') {
+    if(streq(argv[argind], "-h")){
+        usage(argv[0], 0);
+    }
+    else if(streq(argv[argind], "-t")){
+        Timeout = atoi(argv[++argind]);
+    }
+    else if(streq(argv[argind], "-v")){
+        Verbose = true;
+    }
+    ++argind;
+  }
+
+  strs = malloc((argc-argind) * sizeof(char*));
+  for(int i = 0; i < (argc-argind); i++){
+    strs[i] = argv[argind++];
+  }
+  return strs;
 }
 
 /**
@@ -62,7 +81,17 @@ void    handle_signal(int signum) {
 /* Main Execution */
 
 int	main(int argc, char *argv[]) {
-    return EXIT_FAILURE;
+  //int sig = signal(SIGCHLD, handle_signal);
+  //int f = fork();
+  //if(f < 0){
+
+  //}
+
+  //0 - kill child success
+  //<0 - wait don't kill
+  //end - start
+  //+(" ".sec)
+  return EXIT_FAILURE;
 }
 
 /* vim: set sts=4 sw=4 ts=8 expandtab ft=c: */

@@ -6,6 +6,10 @@ FAILURES=0
 
 export PATH=$WORKSPACE:$PATH
 
+if [ -n "$EDITOR" ]; then
+    export EDITOR=$(basename $EDITOR)
+fi
+
 # Functions
 
 error() {
