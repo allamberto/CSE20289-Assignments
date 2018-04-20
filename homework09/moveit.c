@@ -34,7 +34,7 @@ void	usage(const char *progname, int status) {
  * @return  Newly allocated path to temporary file.
  */
 char *	save_files(char **files, size_t n) {
-    char buffer[] = "XXXXXX"; ///tmp/exXXXXXX/
+    char buffer[] = "XXXXXX";
     int fd = mkstemp(buffer);
     if(fd < 0){
       fprintf(stderr, "1 Error: %s", strerror(errno));

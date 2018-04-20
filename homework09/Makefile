@@ -33,4 +33,4 @@ moveit:
 	$(CC) $(CFLAGS) -o moveit moveit.c
 
 timeit:
-	$(CC) $(CFLAGS) -o timeit timeit.c
+	$(CC) $(CFLAGS) -lrt -o timeit timeit.c
