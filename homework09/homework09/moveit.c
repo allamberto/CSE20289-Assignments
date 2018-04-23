@@ -34,7 +34,7 @@ void	usage(const char *progname, int status) {
  * @return  Newly allocated path to temporary file.
  */
 char *	save_files(char **files, size_t n) {
-    char buffer[] = "XXXXXX"; ///tmp/exXXXXXX/
+    char buffer[] = "/tmp/exXXXXXX/"; ///tmp/exXXXXXX/
     int fd = mkstemp(buffer);
     if(fd < 0){
       fprintf(stderr, "1 Error: %s", strerror(errno));
@@ -60,27 +60,27 @@ char *	save_files(char **files, size_t n) {
  */
 bool	edit_files(const char *path) {
   int status = EXIT_SUCCESS;
-  char *search;
-  search = getenv("EDITOR");
-  if(search == NULL)
+  char search[BUFSIZ] = getenv("EDITOR");
+  if(!search)
     search = "vim";
 
   int pid = fork();
-  sleep(1);
   if (pid < 0) {	    // Error
 	   fprintf(stderr, "Unable to fork: %s\n", strerror(errno));
 	   return false;
   }
   else if (pid == 0) {	    // Child
-	   //printf("Child pid: %d, Parent pid: %d\n", getpid(), getppid());
-	   if (execlp(search, path, NULL) < 0) {
-	      fprintf(stderr, "Unable to execlp: %s\n", strerror(errno));
-	      return false;
-	   }
-  } else {		    // Parent
+	   execlp(search, search, path, NULL);
+	   fprintf(stderr, "Unable to execlp: %s\n", strerror(errno));
+     _exit(EXIT_FAILURE);
+  }
+  else {		    // Parent
 	   while ((pid = wait(&status)) < 0);
      if(pid != -1 && WIFEXITED(status)){
-       return WEXITSTATUS(status);
+       if(WEXITSTATUS(status) == 0)
+          return true;
+      else
+          return false;
      }
   }
   return false;
@@ -99,21 +99,20 @@ bool	move_files(char **files, size_t n, const char *path) {
   fp = fopen(path, "r");
   if (!fp) {
     fprintf(stderr, "Can't open: %s\n", strerror(errno));
-    fclose(fp);
     return false;
   }
 
   for(int i = 1; i < n; i++){
     if(fgets(line, BUFSIZ, fp)){
-    strchomp(line);
-    if(!streq(files[i], line)){
-      if(rename(files[i], line) < 0){
-        fprintf(stderr, "Can't rename: %s\n", strerror(errno));
-        fclose(fp);
-        return false;
+      strchomp(line);
+      if(!streq(files[i], line)){
+        if(rename(files[i], line) < 0){
+          fprintf(stderr, "Can't rename: %s\n", strerror(errno));
+          fclose(fp);
+          return false;
+        }
       }
     }
-  }
   }
   fclose(fp);
   return true;
@@ -122,29 +121,31 @@ bool	move_files(char **files, size_t n, const char *path) {
 /* Main Execution */
 
 int	main(int argc, char *argv[]) {
-  //printf("1\n");
+  int status = EXIT_FAILURE;
   if(argc < 2 || streq(argv[1], "-h")){
-    //printf("2\n");
     usage(argv[0], 0);
   }
   char **files = argv;
   char* path = save_files(files, argc - 1);
-  //printf("3\n");
+  if(path == NULL){
+    goto end;
+  }
   if(!edit_files(path)){
-    unlink(path);
-    free(path);
-    return EXIT_FAILURE;
+    fprintf(stderr, "Failed Edit: %s\n", strerror(errno));
+    goto end;
   }
-  //printf("4\n");
   if(!move_files(files, argc - 1, path)){
+    goto end;
+  }
+
+  status = EXIT_SUCCESS;
+
+end:
+  if(path){
     unlink(path);
     free(path);
-    return EXIT_FAILURE;
   }
-  //printf("5\n");
-  unlink(path);
-  free(path);
-  return EXIT_SUCCESS;
+  return status;
 }
 
 /* vim: set sts=4 sw=4 ts=8 expandtab ft=c: */

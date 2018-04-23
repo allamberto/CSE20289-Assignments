@@ -1,4 +1,4 @@
-/* moveit.c: Interactive Move Command */
+/* timeit.c: Interactive Move Command */
 
 #include <errno.h>
 #include <stdbool.h>

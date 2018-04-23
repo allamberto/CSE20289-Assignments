@@ -81,17 +81,44 @@ void    handle_signal(int signum) {
 /* Main Execution */
 
 int	main(int argc, char *argv[]) {
-  //int sig = signal(SIGCHLD, handle_signal);
-  //int f = fork();
-  //if(f < 0){
+  parse_options(argc, argv);
+  struct time st, fin;
+  long seconds;
+  clock_gettime(CLOCK_MONOTONIC, &st);
+  int sig = signal(SIGCHLD, handle_signal);
+  int f = fork();
+  if(f < 0){
+    fprintf(stderr, "Can't fork: %s\n", strerror(errno));
+    return EXIT_FAILURE;
+  }
+  if(f == 0){
+    execlp(command, command, NUll);
+    _exit(EXIT_FAILURE);
+  }else{
+    int n = nanosleep(Timeout);
+    if(n == 0){ //kill
+      kill(child pid, SIGCHLD);
+    }
+    else{ //interrupted
+      while ((pid = wait(&status)) < 0);
+      if(pid != -1 && WIFEXITED(status)){
+        if(WEXITSTATUS(status) == 0)
+           return true;
+       else
+           return false;
+      }
+      clock_gettime(CLOCK_MONOTONIC, &fin);
+      seconds = fin.tv_sec - st.tv_sec;
+    }
+  }
 
-  //}
+
 
   //0 - kill child success
   //<0 - wait don't kill
   //end - start
   //+(" ".sec)
-  return EXIT_FAILURE;
+  return EXIT_SUCCESS;
 }
 
 /* vim: set sts=4 sw=4 ts=8 expandtab ft=c: */
