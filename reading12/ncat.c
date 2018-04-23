@@ -65,12 +65,10 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-  
+
     char buffer[BUFSIZ];
     while (fgets(buffer, BUFSIZ, stdin)) {
         fputs(buffer, client_file);
-        fgets(buffer, BUFSIZ, client_file);
-        fputs(buffer, stdout);
     }
 
     fclose(client_file);
