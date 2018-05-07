@@ -102,6 +102,7 @@ int main(int argc, char *argv[]) {
 
 
     fclose(client_file);
+    fclose(file);
     return EXIT_SUCCESS;
 }
 
