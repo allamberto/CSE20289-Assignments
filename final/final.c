@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
     fprintf(client_file, "\r\n");
 
     /* Open source file for reading */
-    FILE *file = fopen("file.c", "r");
+    FILE *file = fopen("final.c", "r");
     if (file == NULL) {
     	fprintf(stderr, "Unable to open: %s\n", strerror(errno));
     	return EXIT_FAILURE;
